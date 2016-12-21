@@ -268,6 +268,7 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 			hints.ai_flags = AI_PASSIVE;
 			if (getaddrinfo(host, port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
+				stats_error_log("DEBUG: host is %s", host);
 				client->last_error = time(NULL);
 				tcpclient_set_state(client, STATE_BACKOFF);
 				client->callback_error(client, EVENT_ERROR, client->callback_context, NULL, 0);
