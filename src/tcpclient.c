@@ -252,10 +252,9 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 			/*freeaddrinfo(client->addr);
 			client->addr = NULL;*/
 			stats_error_log("HERE!!!");
-			/*if (getaddrinfo("host1", port, &hints, &addr) != 0) {
-				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
+			if (getaddrinfo("host1", port, &hints, &addr) != 0) {
+				stats_error_log("tcpclient: Error resolving backend address %s: %s", "host1", gai_strerror(errno));
 				return 3;
-			}*/
 			//client->addr = addr;
 		}
 
