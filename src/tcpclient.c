@@ -248,10 +248,10 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 
 	if (client->state == STATE_INIT) {
 		// Resolve address, create socket, set nonblocking, setup callbacks, fire connect
+		stats_error_log("HOST IS: %s", *host);
 		if (client->config->always_resolve_dns == true && client->addr != NULL) {
 			/*freeaddrinfo(client->addr);
 			client->addr = NULL;*/
-			stats_error_log("host is: %s", *host);
 			if (getaddrinfo(host, port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
 				return 3;
@@ -276,7 +276,6 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 
 			if (getaddrinfo(host, port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
-				stats_error_log("DEBUG: host is %s", host);
 				client->last_error = time(NULL);
 				tcpclient_set_state(client, STATE_BACKOFF);
 				client->callback_error(client, EVENT_ERROR, client->callback_context, NULL, 0);
