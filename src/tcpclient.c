@@ -253,13 +253,13 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 			stats_error_log("going to re-resolve dns...");
 			host = "host1";
 			stats_error_log("Now HOST IS: %s", host);
-			/*freeaddrinfo(client->addr);
-			client->addr = NULL;*/
-			/*if (getaddrinfo(host, port, &hints, &addr) != 0) {
+			//freeaddrinfo(client->addr);
+			//client->addr = NULL;
+			if (getaddrinfo(host, port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
 				return 3;
-			}*/
-			//client->addr = addr;
+			}
+			client->addr = addr;
 		}
 
 		if (client->addr == NULL) {
