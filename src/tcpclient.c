@@ -249,8 +249,13 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 	if (client->state == STATE_INIT) {
 		// Resolve address, create socket, set nonblocking, setup callbacks, fire connect
 		if (client->config->always_resolve_dns == true && client->addr != NULL) {
-			//freeaddrinfo(client->addr);
-			client->addr = NULL;
+			/*freeaddrinfo(client->addr);
+			client->addr = NULL;*/
+			if (getaddrinfo(host, port, &hints, &addr) != 0) {
+				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
+				return 3;
+			}
+			client->addr = addr;
 		}
 
 		if (client->addr == NULL) {
@@ -262,10 +267,12 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 				protocol = "tcp";
 				client->socktype = SOCK_STREAM;
 			}
+
 			memset(&hints, 0, sizeof(hints));
 			hints.ai_family = AF_UNSPEC;
 			hints.ai_socktype = client->socktype;
 			hints.ai_flags = AI_PASSIVE;
+
 			if (getaddrinfo(host, port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", host, gai_strerror(errno));
 				stats_error_log("DEBUG: host is %s", host);
@@ -275,6 +282,7 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 				return 3;
 			}
 			client->addr = addr;
+
 			snprintf(client->name, TCPCLIENT_NAME_LEN, "%s/%s/%s", host, port, protocol);
 		} else {
 			addr = client->addr;
