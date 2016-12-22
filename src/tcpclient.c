@@ -250,6 +250,9 @@ int tcpclient_connect(tcpclient_t *client, const char *host, const char *port, c
 		// Resolve address, create socket, set nonblocking, setup callbacks, fire connect
 		stats_error_log("HOST IS: %s", host);
 		if (client->config->always_resolve_dns == true && client->addr != NULL) {
+			stats_error_log("going to re-resolve dns...");
+			host = "host1";
+			stats_error_log("Now HOST IS: %s", host);
 			/*freeaddrinfo(client->addr);
 			client->addr = NULL;*/
 			/*if (getaddrinfo(host, port, &hints, &addr) != 0) {
