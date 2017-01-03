@@ -326,10 +326,10 @@ int tcpclient_connect(tcpclient_t *client) {
 				return 3;
 			}
 
-      /* debug */
-      struct sockaddr_in *debug_addr;
-      debug_addr = (struct sockaddr_in *)addr->ai_addr;
-      stats_error_log("CLIENT ADDR IS: %s\n",inet_ntoa((struct in_addr)debug_addr->sin_addr));
+			/* debug */
+			struct sockaddr_in *debug_addr;
+			debug_addr = (struct sockaddr_in *)addr->ai_addr;
+			stats_error_log("CLIENT ADDR IS: %s\n",inet_ntoa((struct in_addr)debug_addr->sin_addr));
 
 			client->addr = addr;
 			snprintf(client->name, TCPCLIENT_NAME_LEN, "%s/%s/%s", client->host, client->port, client->protocol);
