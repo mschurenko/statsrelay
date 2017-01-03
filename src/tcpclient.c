@@ -317,6 +317,8 @@ int tcpclient_connect(tcpclient_t *client) {
 			hints.ai_socktype = client->socktype;
 			hints.ai_flags = AI_PASSIVE;
 
+      stats_error_log("CLIENT ADDR IS NULL");
+
 			if (getaddrinfo(client->host, client->port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", client->host, gai_strerror(errno));
 				client->last_error = time(NULL);
