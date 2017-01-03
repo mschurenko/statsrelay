@@ -332,7 +332,7 @@ int tcpclient_connect(tcpclient_t *client) {
       stats_error_log("ADDR IS: %s", addr->ai_addr);
 
       /* debug */
-      struct sockaddr_in *addr;
+      struct sockaddr_in *debug_addr;
       debug_addr = (struct sockaddr_in *)addr->ai_addr;
       printf("CLIENT ADDR IS: %s\n",inet_ntoa((struct in_addr)debug_addr->sin_addr));
 
