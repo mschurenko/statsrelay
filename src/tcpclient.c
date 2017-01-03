@@ -18,6 +18,8 @@
 
 #include <ev.h>
 
+#include <arpa/inet.h>
+
 #define DEFAULT_BUFFER_SIZE (1<<16)
 
 static const char *tcpclient_state_name[] = {
@@ -328,7 +330,12 @@ int tcpclient_connect(tcpclient_t *client) {
 			}
       stats_error_log("HOST IS: %s", client->host);
       stats_error_log("ADDR IS: %s", addr->ai_addr);
-      stats_error_log("CLIENT ADDR IS: %s", client->addr);
+
+      /* debug */
+      struct sockaddr_in *addr;
+      debug_addr = (struct sockaddr_in *)addr->ai_addr;
+      printf("CLIENT ADDR IS: %s\n",inet_ntoa((struct in_addr)debug_addr->sin_addr));
+
 			client->addr = addr;
 			snprintf(client->name, TCPCLIENT_NAME_LEN, "%s/%s/%s", client->host, client->port, client->protocol);
 		} else {
