@@ -301,7 +301,6 @@ int tcpclient_connect(tcpclient_t *client) {
 	if (client->state == STATE_INIT) {
 		// Resolve address, create socket, set nonblocking, setup callbacks, fire connect
 		if (client->config->always_resolve_dns == true && client->addr != NULL) {
-      stats_error_log("ALWAYS_RESOLVE_DNS");
 			freeaddrinfo(client->addr);
 			client->addr = NULL;
 		}
@@ -319,8 +318,6 @@ int tcpclient_connect(tcpclient_t *client) {
 			hints.ai_socktype = client->socktype;
 			hints.ai_flags = AI_PASSIVE;
 
-      stats_error_log("CLIENT ADDR IS NULL");
-
 			if (getaddrinfo(client->host, client->port, &hints, &addr) != 0) {
 				stats_error_log("tcpclient: Error resolving backend address %s: %s", client->host, gai_strerror(errno));
 				client->last_error = time(NULL);
@@ -328,8 +325,6 @@ int tcpclient_connect(tcpclient_t *client) {
 				client->callback_error(client, EVENT_ERROR, client->callback_context, NULL, 0);
 				return 3;
 			}
-      stats_error_log("HOST IS: %s", client->host);
-      stats_error_log("ADDR IS: %s", addr->ai_addr);
 
       /* debug */
       struct sockaddr_in *debug_addr;
