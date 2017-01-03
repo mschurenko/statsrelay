@@ -299,6 +299,7 @@ int tcpclient_connect(tcpclient_t *client) {
 	if (client->state == STATE_INIT) {
 		// Resolve address, create socket, set nonblocking, setup callbacks, fire connect
 		if (client->config->always_resolve_dns == true && client->addr != NULL) {
+      stats_error_log("ALWAYS_RESOLVE_DNS");
 			freeaddrinfo(client->addr);
 			client->addr = NULL;
 		}
