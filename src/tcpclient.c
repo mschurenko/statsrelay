@@ -327,6 +327,8 @@ int tcpclient_connect(tcpclient_t *client) {
 				return 3;
 			}
       stats_error_log("HOST IS: %s", client->host);
+      stats_error_log("ADDR IS: %s", addr);
+      stats_error_log("CLIENT ADDR IS: %s", client->addr);
 			client->addr = addr;
 			snprintf(client->name, TCPCLIENT_NAME_LEN, "%s/%s/%s", client->host, client->port, client->protocol);
 		} else {
