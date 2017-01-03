@@ -326,6 +326,7 @@ int tcpclient_connect(tcpclient_t *client) {
 				client->callback_error(client, EVENT_ERROR, client->callback_context, NULL, 0);
 				return 3;
 			}
+      stats_error_log("HOST IS: %s", host);
 			client->addr = addr;
 			snprintf(client->name, TCPCLIENT_NAME_LEN, "%s/%s/%s", client->host, client->port, client->protocol);
 		} else {
